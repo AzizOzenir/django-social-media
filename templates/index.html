@@ -1,0 +1,103 @@
+{% extends "./main.html"%} <!-- it  must be at first line-->
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
+
+<nav class="navbar">
+  <div class="left-div">
+    <form class="search-bar" action="/search" method="get">
+      <input type="search" name="q" placeholder="Search" />
+      <button type="submit">
+        <i class="fas fa-search"></i>
+      </button>
+    </form>
+<!-- 
+  <form class="search-bar" action="{% url 'search' %}" method="get">
+    <input type="search" name="q" placeholder="Search" />
+    <button type="submit">
+        <i class="fas fa-search"></i>
+    </button>
+</form>
+ -->
+  </div>
+  <div class="right-div">
+    <a href="/upload"> <button class="upload-button " type="submit"> Upload</button>
+    </a>
+    <a href="/profile/{{user_object}}"><img class="profile-circle" src="{{user_profile.pp.url}}" alt="Profile"></a>
+
+  </div>
+</nav>
+
+<div class="flow"> 
+  {% for post in posts reversed %}
+  <div class="post-card">
+    
+    <div class="post-info">
+      <div class="post-actions">
+        <div class="post-owner"><a class="gradient-link" href="/profile/{{post.user}}">@{{post.user}}</a></div>
+    <!--     {% if post.id == my_likes %}
+        <div>aaa</div>
+        {% else %}
+        <div>bbb</div>
+        {% endif %} -->
+        <!--   <button class="edit-button">
+          <i class="fas fa-ellipsis-v"></i>
+        </button> -->
+      </div>
+
+     
+
+      <div class="post-image">
+        <a href="{{post.image.url}}">
+          <img src="{{post.image.url}}" alt="Post Image">
+        </a>
+      </div>
+
+
+      <div class="post-actions">
+
+        <div>
+          <a id="likeLink" href="/like?post_id={{post.id}}" onclick="likeHandler(e)">
+            <button class="like-button" >
+              <i class="fas fa-thumbs-up"></i>
+            </button>
+          </a>
+          <button class="comment-button" >
+            <i class="fas fa-comment"></i>
+          </button>
+          <div id="comment-div" style="display: none;">
+            <p>This is a new div that will be shown when the comment button is clicked.</p>
+          </div>
+        </div>
+        <a href="{{ post.image.url }}" download>
+          <button class="download-button">
+            <i class="fas fa-download"></i>
+          </button>
+        </a>
+      </div>
+
+      <div class="like-counter">
+        {% if post.likes == 0 %}
+        <p>No likes</p>
+        {% elif post.likes == 1 %}
+        <p>Liked by {{post.likes}} person</p>
+        {% else %}
+        <p>Liked by {{post.likes}} people</p>
+        {% endif %}
+
+      </div>
+      <div class="post-comment">
+        <p>{{ post.caption }}</p>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<script src="{% static 'js/index.js' %} ">
+
+  
+</script>
+
+{% endblock content %}

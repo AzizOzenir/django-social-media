@@ -1,0 +1,53 @@
+
+{% extends "./main.html"%} <!-- it  must be at first line-->
+{% load static %}
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/settings.css' %}">
+
+ 
+
+<div class="container">
+  <h1> Account Setting for {{user.username}}</h1>
+  <br>
+  <hr>
+  <div class="">
+    <div>
+      <h3>General</h3>
+      <p></p>
+    </div>
+    <div>
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="grid">
+          <div>
+            <label>Profile Image</label>
+            <input type="file" name="image" required >
+          </div>
+          <div>
+            <label>Background Image</label>
+            <input type="file" name="bgImage" required >
+          </div>
+          <div>
+            <label>Bio</label>
+            <textarea name="bio" rows="3" required >{{user_profile.bio}}</textarea>
+          </div>
+          <div>
+            <label>Location</label>
+            <input type="text" name="location" value="{{user_profile.location}}" required >
+          </div>
+        </div>
+        <div class="actions">
+          <button class="cancel">Cancel</button>
+          <button type="submit" class="save">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <br>
+</div>
+
+{% comment %} 
+ <script src="{% static 'js/settings.js' %}"></script> 
+ {% endcomment %}
+{% endblock content %}

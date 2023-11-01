@@ -1,0 +1,43 @@
+
+  {% extends "./main.html"%} <!-- it  must be at first line-->
+  {% load static %}
+  {% block content %}
+  
+  <link rel="stylesheet" href="{% static 'css/login.css' %}">
+  
+  <div class="container">
+    <div class="card">
+      <h1 class="title">Login</h1>
+      <div id="alertContainer"></div>
+      <form id="login-form" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" name="username" id="username" placeholder="Enter your username" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password"  name="password" id="password" placeholder="Enter your password" required>
+        </div>
+        <button type="submit" class="btn">Login</button>
+      </form>
+      <div class="or"> OR </div>     
+      <p class="signup-link">Don't have an account? <a href="/signup">Sign up</a></p>
+    </div>
+  </div>
+
+  <script>
+    // Get the alert container element
+    const alertContainer = document.getElementById("alertContainer");
+
+    // Django template loop to generate JavaScript code
+    {% for message in messages %}
+        const alertBox = document.createElement("div");
+        alertBox.className = "alert";
+        alertBox.textContent = "{{ message }}";
+        alertContainer.appendChild(alertBox);
+    {% endfor %}
+</script>
+<script src="{ static 'js/login.js'}"></script>
+  {% endblock content %}
+

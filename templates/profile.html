@@ -1,0 +1,150 @@
+{% extends "./main.html"%}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+<header id="header">
+    <div class="card">
+        <a href="{{user_profile.bg.url}}">
+            <div class="card_background_img" style="background-image: url('{{user_profile.bg.url}}');">
+            </div>
+        </a>
+        <div style="display: flex;  justify-content: center;">
+
+            <a href="{{user_profile.pp.url}}">
+
+                <div class="card_profile_img " style="background-image: url('{{user_profile.pp.url}}');">
+                </div>
+            </a>
+
+        </div>
+    </div>
+
+
+    <div class="container">
+        <div class="profile">
+
+            <div class="profile-actions">
+                <h1 class="profile-user-name">{{user_profile.user.username}}</h1>
+                <a href="/"><button class="home-button " type="submit"> home</button></a>
+
+
+
+                {% if isSelfProfile %}
+                <a href="/logout">
+                    <button class="logout-btn">Logout</button>
+
+                </a>
+                <a href="/settings">
+                    <button class="profile-edit-btn">Settings</button>
+
+                </a>
+                {% else %}
+                <form action="/follow" method="POST">
+                    {% csrf_token %}
+
+
+                    <!-- for getting context values that rendered in profile view IHOPE -->
+                    <input type="hidden" value="{{user.username}}" name="follower" />
+                    <input type="hidden" value="{{user_object.username}}" name="user" />
+
+                    <button class="follow-button " type="submit"> {{button_text}}</button>
+
+                </form>
+                {% endif %}
+            </div>
+            <div class="profile-stats">
+                <ul>
+                    <li><span class="profile-stat-count" id="post-button">
+                            {% if user_post_length == 0 %}
+                            <p>No Posts</p>
+                            {% else %}
+                            <p>{{user_post_length}} posts </p>
+                            {% endif %}
+                        </span> </li>
+                    <li>
+                        <span class="profile-stat-count" id="toggleButton1">
+                            {% if user_followers == 0 %}
+                            <p>No Follower</p>
+                            {% else %}
+                            <p>{{user_followers}} followers </p>
+
+                            {% endif %}
+
+                        </span>
+                        <div class="follow-divs" id="scroll-div1">
+                            {% for follower in followers %}
+                            <div>
+                                <a class="gradient-link"
+                                    href="/profile/{{follower.follower}}">@{{follower.follower}}</a>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </li>
+                    <li>
+                        <span class="profile-stat-count" id="toggleButton2">
+                            {% if user_following == 0 %}
+                            <p>No Following</p>
+                            {% else %}
+                            <p>{{user_following}} following</p>
+                            {% endif %}
+                        </span>
+                        <div class="follow-divs" id="scroll-div2">
+
+                            {% for follow in followings %}
+                            <div>
+                                <a href="/profile/{{follow.user}}">@{{follow.user}}</a>
+
+
+
+
+
+                            </div>
+                            {% endfor %}
+                            <!-- {% for follow in followings %}
+                            <div>{{follow.user}} </div>
+                            {% endfor %}
+                             -->
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="location">
+                {{user_profile.location}}
+            </div>
+            <br>
+            <div class="profile-bio">
+                <p> {{user_profile.bio}}</p>
+            </div>
+        </div>
+    </div>
+</header>
+<main id="content">
+    <div class="container">
+        <div class="gallery">
+            {% for post in user_posts %}
+            <div class="gallery-item" tabindex="0">
+                <img src="{{post.image.url}}" class="gallery-image" alt="">
+                <div class="gallery-item-info">
+                    <ul>
+                        <li class="gallery-item-likes"><span class="visually-hidden">Likes:</span>
+                            <i class="fas fa-heart" aria-hidden="true"></i> {{post.likes}}
+                        </li>
+                        <li class="gallery-item-comments"><span class="visually-hidden">Comments:</span><i
+                                class="fas fa-comment" aria-hidden="true"></i> Fix it!</li>
+                    </ul>
+                    <div class="gallery-item-description"><span>{{post.caption}}</span></div>
+                    <a href="/delete_post?post_id={{post.id}}">
+                        <button class="like-button">
+                            <i class="fas fa-thumbs-up"></i>
+                        </button>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+</main>
+<script src="{% static 'js/profile.js' %}">
+
+</script>
+{% endblock content %}

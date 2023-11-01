@@ -1,0 +1,40 @@
+{% extends "./main.html"%}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/search.css' %}">
+<!-- search_results.html -->
+<div class="container">
+    <a href="/"><button class="home-button " type="submit"> home</button></a>
+    {% if query %}
+    <strong>Search Results for "{{ query }}"</strong>
+    {% if results %}
+    <ol>
+        {% for profile in results %}
+       
+        <div class='tile'>
+            <img class='tile-img' src="{{profile.pp.url}}" style="background-image: url(https://static.pexels.com/photos/9050/pexels-photo.jpg);"/>
+            <div class='tile-info'>
+              <h1><a href="{% url 'profile' profile.user.username %}"><strong class="gradient-link">@{{profile.user.username}}</strong></a></h1>
+              <p>{{profile.bio}}</p>
+            </div>
+          </div>
+        <div class="">
+            <img src="{{profile.pp.url}}" class="img-div" alt="">
+            <li><a href="{% url 'profile' profile.user.username %}"><strong class="gradient-link">@{{profile.user.username}}</strong></a><br />
+                <p>
+                    {{profile.bio}}
+                </p>
+            </li>
+        </div>
+
+        {% endfor %}
+    </ol>
+    {% else %}
+    <p>No results found.</p>
+    {% endif %}
+    {% endif %}
+</div>
+
+
+
+{% endblock content %}

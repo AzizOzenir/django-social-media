@@ -1,0 +1,43 @@
+/* File Input */
+
+  
+  .custom-file-upload {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #555;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  /* Textareas */
+  textarea {
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    resize: vertical;
+  }
+  
+  /* Button */
+  button[type="submit"] {
+    padding: 8px 16px;
+    background-color: #0095f6;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  /* Optional: Hover and Focus Styles */
+  .custom-file-upload:hover,
+  button[type="submit"]:hover {
+    background-color: #666;
+  }
+  
+  textarea:focus,
+  button[type="submit"]:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #0095f6;
+  }
+  
